@@ -1,2 +1,6 @@
 #!/usr/bin/env bash
+# The script extends previous exercise cmd and displays the the bash word
+#you cannot use grep
+#disable shellcheck -sc2009
+
 ./1-list_your_processes | grep "bash"
