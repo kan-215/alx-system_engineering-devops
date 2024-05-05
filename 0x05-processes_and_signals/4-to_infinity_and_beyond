@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# The script displays a statement indefinetly
+
+while true; do
+	echo "To infinity and beyond"
+	sleep 2
+done

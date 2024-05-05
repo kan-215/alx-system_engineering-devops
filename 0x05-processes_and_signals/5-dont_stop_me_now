@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# script kills the infinty and beyond using the sigkill signll
+
+# get the pid of the code
+id=$(pgrep "bash ./4-to_infinity_and_beyond" -f)
+
+#terminate the infinity process
+if [ -n "$id" ]
+then
+	kill -15 "$id"
+fi
