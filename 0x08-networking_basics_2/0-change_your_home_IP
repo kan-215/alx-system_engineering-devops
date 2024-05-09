@@ -1,0 +1,35 @@
+#!/bin/env bash
+
+# Check if running with root privileges
+if [ "$(id -u)" -ne 0 ]; then
+    echo "Please run this script with sudo or as root"
+    exit 1
+fi
+
+# Modify /etc/hosts to configure localhost and facebook.com
+echo "127.0.0.2 localhost" | sudo tee -a /etc/hosts
+echo "8.8.8.8 facebook.com" | sudo tee -a /etc/hosts
+
+# Restart networking to apply changes
+sudo systemctl restart networking
+
+# intsall Docker if not installed.
+if ! command -v docker &> /dev/null; then
+    echo "Docker is not installed. Installing Docker..."
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sudo sh get-docker.sh
+    sudo usermod -aG docker $USER
+    echo "Docker installed successfully."
+    echo "Please log out and log back in for Docker user group changes to take effect."
+    exit 0
+fi
+
+# Check if Docker is running
+if ! docker info &> /dev/null; then
+    echo "Docker is not running. Starting Docker..."
+    sudo systemctl start docker
+    echo "Docker started successfully."
+fi
+
+# Alert  the user that configuration is complete
+echo "Configuration complete. Localhost resolves to 127.0.0.2 and facebook.com resolves to 8.8.8.8."
