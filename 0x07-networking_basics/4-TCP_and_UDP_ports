@@ -1,0 +1,4 @@
+#!/bin/bash
+# a bash script that displays listening ports
+
+netstat -l -p
