@@ -1,6 +1,6 @@
-# puppet command that executes a command
-exec {'pkill killmenow':
-	path	=> 'usr/bin:/usr/sbin:/bin'
+# kills a process killmenow
+
+exec { 'pkill':
+  command  => 'pkill killmenow',
+  provider => 'shell',
 }
-
-
