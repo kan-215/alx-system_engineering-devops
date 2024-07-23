@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # the script creates a backup and compresses all mysql` my databases
 
-# variables
 day=$(date +"%d")
 month=$(date +"%m")
 year=$(date +"%Y")
