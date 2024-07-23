@@ -1,4 +1,4 @@
-# Replica Server Configuration (4-mysql_configuration_replica):
+# Replica Server Configuration
 [mysqld]
 server-id = 2
 relay_log = /var/log/mysql/mysql-relay-bin.log

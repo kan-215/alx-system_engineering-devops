@@ -1,4 +1,4 @@
-# Primary Server Configuration (4-mysql_configuration_primary):
+# Primary Server Configuration
 [mysqld]
 server-id = 1
 log_bin = /var/log/mysql/mysql-bin.log
