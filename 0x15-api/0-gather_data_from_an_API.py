@@ -1,3 +1,8 @@
+#!/usr/bin/python3
+"""
+This script fetches and displays TODO list progress for a given employee ID from a REST API.
+"""
+
 import sys
 import requests
 
@@ -38,4 +43,3 @@ if __name__ == "__main__":
     except ValueError:
         print("Error: Employee ID must be an integer")
         sys.exit(1)
-
