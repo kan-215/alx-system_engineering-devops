@@ -1,34 +1,45 @@
 #!/usr/bin/python3
 """
-Returns to-do list information for a given employee ID.
-
-This script takes an employee ID as a command-line argument and fetches
-the corresponding user information and to-do list from the JSONPlaceholder API.
-It then prints the tasks completed by the employee.
+This script fetches and displays TODO list progress for a given employee ID from a REST API.
 """
 
-import requests
 import sys
+import requests
 
+def gather_data(employee_id):
+    # Define the API endpoints
+    user_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
+    todos_url = f"https://jsonplaceholder.typicode.com/todos?userId={employee_id}"
+
+    # Fetch user data
+    user_response = requests.get(user_url)
+    user_data = user_response.json()
+    employee_name = user_data.get("name", "Unknown")
+
+    # Fetch todo data
+    todos_response = requests.get(todos_url)
+    todos_data = todos_response.json()
+
+    # Calculate the number of completed and total tasks
+    total_tasks = len(todos_data)
+    done_tasks = sum(1 for todo in todos_data if todo['completed'])
+
+    # Print the result
+    print(f"Employee {employee_name} is done with tasks({done_tasks}/{total_tasks}):")
+
+    # Print completed tasks
+    for todo in todos_data:
+        if todo['completed']:
+            print(f"     {todo['title']}")
 
 if __name__ == "__main__":
-    # Base URL for the JSONPlaceholder API
-    url = "https://jsonplaceholder.typicode.com/"
+    if len(sys.argv) != 2:
+        print("Usage: python3 0-gather_data_from_an_API.py <employee_id>")
+        sys.exit(1)
 
-    # Get the employee information using the provided employee ID
-    employee_id = sys.argv[1]
-    user = requests.get(url + "users/{}".format(employee_id)).json()
-
-    # Get the to-do list for the employee using the provided employee ID
-    params = {"userId": employee_id}
-    todos = requests.get(url + "todos", params).json()
-
-    # Filter completed tasks and count them
-    completed = [t.get("title") for t in todos if t.get("completed") is True]
-
-    # Print the employee's name and the number of completed tasks
-    print("Employee {} is done with tasks({}/{}):".format(
-        user.get("name"), len(completed), len(todos)))
-
-    # Print the completed tasks one by one with indentation
-    [print("\t {}".format(complete)) for complete in completed]
+    try:
+        employee_id = int(sys.argv[1])
+        gather_data(employee_id)
+    except ValueError:
+        print("Error: Employee ID must be an integer")
+        sys.exit(1)
