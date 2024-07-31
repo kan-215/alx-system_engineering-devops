@@ -15,10 +15,10 @@ def fetch_user_data():
     # Base URL for the JSONPlaceholder API
     url = "https://jsonplaceholder.typicode.com/"
 
-    # Fetch the list of all users (employees)
+    # get the list of all employees
     users = requests.get(url + "users").json()
 
-    # Create a dictionary containing to-do list information of all employees
+    # Create a dictionary containing to-do list data  of all employees
     data_to_export = {}
     for user in users:
         user_id = user["id"]
