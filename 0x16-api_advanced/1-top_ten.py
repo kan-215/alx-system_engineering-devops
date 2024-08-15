@@ -33,7 +33,7 @@ def top_ten(subreddit):
         # Parse the JSON response
         data = response.json().get("data")
 
-        # Extract titles from the hot articles
+        # Extract titles from the hot posts
         hot_articles = data.get("children", [])
         for article in hot_articles:
             title = article.get("data").get("title")
