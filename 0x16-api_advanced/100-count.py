@@ -47,13 +47,13 @@ def count_words(subreddit, word_list, after=None, counts=None):
 
             # Count the keywords in the title
             for word in title:
-                cleaned_word = word.strip('.,!?:;"\'-_()[]{}')  # Clean punctuation
+                cleaned_word = word.strip('.,!?:;"\'-_()[]{}')
                 if cleaned_word in counts:
                     counts[cleaned_word] += 1
 
         # Base case: If there is no more pagination, print the sorted counts
         if after is None:
-            # Sort by count (descending) and by word (ascending) in case of ties
+            # Sort by count (descending) & by word (ascending) in case of ties
             sorted_counts = sorted(
                 [(word, count) for word, count in counts.items() if count > 0],
                 key=lambda x: (-x[1], x[0])
