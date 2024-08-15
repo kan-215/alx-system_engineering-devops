@@ -6,10 +6,10 @@ import requests
 def top_ten(subreddit):
     """
     Print the titles of the first 10 hot posts listed for a given subreddit.
-    
+
     Args:
         subreddit (str): The name of the subreddit to query.
-        
+
     Returns:
         None: Prints the titles of the first 10 hot posts or None if invalid.
     """
@@ -24,15 +24,15 @@ def top_ten(subreddit):
         response = requests.get(
             url, headers=headers, params=params, allow_redirects=False
         )
-        
+
         # If subreddit is invalid, print None
         if response.status_code != 200:
             print(None)
             return
-        
+
         # Parse the JSON response
         data = response.json().get("data")
-        
+
         # Extract titles from the hot articles
         hot_articles = data.get("children", [])
         for article in hot_articles:
