@@ -1,31 +1,44 @@
 #!/usr/bin/python3
-
+"""Function to query and print the titles of the first 10 hot posts."""
 import requests
 
 
 def top_ten(subreddit):
-    # Reddit API endpoint URL for getting hot posts
-    url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
+    """
+    Print the titles of the first 10 hot posts listed for a given subreddit.
 
-    # Custom User-Agent to avoid Too Many Requests error
-    headers = {'User-Agent': 'CustomUserAgent/1.0'}
+    Args:
+        subreddit (str): The name of the subreddit to query.
 
-    # Make a GET request to the API
-    response = requests.get(url, headers=headers, allow_redirects=False)
+    Returns:
+        None: Prints the titles of the first 10 hot posts or None if invalid.
+    """
+    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    headers = {
+        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
+    }
+    params = {"limit": 10}
 
-    # Check if the response is successful (status code 200)
-    if response.status_code == 200:
-        # Extract the titles of the hot posts from the JSON response
-        data = response.json()
-        posts = data['data']['children']
-        for post in posts:
-            title = post['data']['title']
+    try:
+        # Make the request to Reddit API
+        response = requests.get(
+            url, headers=headers, params=params, allow_redirects=False
+        )
+
+        # If subreddit is invalid, print None
+        if response.status_code != 200:
+            print(None)
+            return
+
+        # Parse the JSON response
+        data = response.json().get("data")
+
+        # Extract titles from the hot posts
+        hot_articles = data.get("children", [])
+        for article in hot_articles:
+            title = article.get("data").get("title")
             print(title)
-    else:
-        # Print None if the subreddit is invalid or the request fails
+
+    except (requests.RequestException, ValueError, AttributeError):
+        # Print None for any error in the request or parsing the JSON
         print(None)
-
-
-subreddit = "python"
-# print("Top 10 hot posts in r/{}:".format(subreddit))
-top_ten(subreddit)
